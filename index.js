@@ -1,12 +1,10 @@
 const { makeWASocket, useMultiFileAuthState, makeInMemoryStore } = require('@whiskeysockets/baileys');
 const pino = require('pino');
-const newsCommand = require('./news');
 const handlePing = require('./ping');
 const axios = require('axios');
 const menuCommand = require('./menu'); // Import the menuCommand function
 const aliveCommand = require('./alive'); 
 const contactCommand = require('./contact'); 
-const chatgptCommand = require('./gpt');
 
 // Setup logger
 const logger = pino({ level: 'info' });
@@ -97,9 +95,7 @@ const startBot = async () => {
     const from = message.key.remoteJid;
     const text = message.message.conversation || message.message.extendedTextMessage?.text;
 
-    if (text && text.startsWith('.news')) {
-      await newsCommand(sock, from, message);
-    } else if (text && text.startsWith('.ping')) {
+    if (text && text.startsWith('.ping')) {
       await handlePing(sock, from, message);
       } else if (text && text.startsWith('.menu')) {
         await menuCommand(sock, from, message);
